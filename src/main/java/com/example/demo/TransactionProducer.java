@@ -10,7 +10,7 @@ public class TransactionProducer{
     private static final Logger log = LoggerFactory.getLogger(TransactionProducer.class);
     private final KafkaTemplate<String, TransactionEvent> kafkaTemplate;
 
-    public TransactionProducer(KafkaTemplate<Sring, TransactionEvent> kafkaTemplate){
+    public TransactionProducer(KafkaTemplate<String, TransactionEvent> kafkaTemplate){
         this.kafkaTemplate = kafkaTemplate;
     }
 

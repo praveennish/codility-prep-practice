@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import java.time.Duration;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -45,7 +46,7 @@ public class TransactionIntegrationTest {
         producer.sendTransaction(badEvent);
 
         // Assert: Read the outcome from the DLQ topic
-        ConsumerRecord<String, String> singleRecord = KafkaTestUtils.getSingleRecord(dlqConsumer, KafkaConfig.DLQ_TOPIC, 15000);
+        ConsumerRecord<String, String> singleRecord = KafkaTestUtils.getSingleRecord(dlqConsumer, KafkaConfig.DLQ_TOPIC, Duration.ofSeconds(15));
         
         assertThat(singleRecord).isNotNull();
         assertThat(singleRecord.value()).contains("TX-999");

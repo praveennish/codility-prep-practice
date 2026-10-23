@@ -33,7 +33,7 @@ public class KafkaConfig{
     }
 
     @Bean
-    public ProducerFactory<String,transactionEvent> producerFactory()
+    public ProducerFactory<String,TransactionEvent> producerFactory()
     {
         Map<String, Object> configMaps = new HashMap<>();
         configMaps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
@@ -48,12 +48,12 @@ public class KafkaConfig{
     }
 
     @Bean
-    public KafkaTemplate<String, transactionEvent> KafkaTemplate(){
+    public KafkaTemplate<String, TransactionEvent> KafkaTemplate(){
         return new KafkaTemplate<>(producerFactory());
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, transactionEvent> kafkaListenerContainerFactory(
+    public ConcurrentKafkaListenerContainerFactory<String, TransactionEvent> kafkaListenerContainerFactory(
         ConsumerFactory<String, Object> consumerFactory,
         KafkaTemplate<String, TransactionEvent> template
     ){
