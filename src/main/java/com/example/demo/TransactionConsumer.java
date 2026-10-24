@@ -11,6 +11,12 @@ import org.springframework.stereotype.Service;
 public class TransactionConsumer{
     private static final Logger log = LoggerFactory.getLogger(TransactionConsumer.class);
 
+    /**
+     * Declares the Consumer Group ID. Kafka tracks offsets on a per-group basis. If you scale out this service to 3 instances 
+     * across 3 servers, Kafka recognizes they share this ID and will balance the 3 partitions evenly among them (1 partition per instance).
+     * @param record
+     * @param ack
+     */
     @KafkaListener(
         topics = KafkaConfig.MAIN_TOPIC,
         groupId = "fin-processor-group",
@@ -18,7 +24,7 @@ public class TransactionConsumer{
     )
     public void consume(ConsumerRecord<String, TransactionEvent> record, Acknowledgment ack) {
         TransactionEvent event = record.value();
-         log.info("Received transaction for processing: {}", event.transactionId());
+        log.info("Received transaction for processing: {}", event.transactionId());
 
         // Simulation: negative amounts trigger business violations and push to DLQ
         if (event.amount() < 0) {

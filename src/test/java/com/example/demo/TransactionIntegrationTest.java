@@ -34,6 +34,7 @@ public class TransactionIntegrationTest {
     public void testInvalidTransaction_RoutesToDeadLetterQueue() {
         // Arrange: Listen directly to the DLQ topic using raw String processing to verify content landing
         Map<String, Object> consumerProps = KafkaTestUtils.consumerProps("test-dlq-group", "true", embeddedKafkaBroker);
+        consumerProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, embeddedKafkaBroker.getBrokersAsString());
         consumerProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         consumerProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         

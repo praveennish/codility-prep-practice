@@ -16,6 +16,11 @@ public class TransactionProducer{
 
     public void sendTransaction(TransactionEvent event){
         log.info("Producing transaction: {}", event.transactionId());
+        /**
+         * The second argument is the Message Key. Kafka runs the key through a hashing algorithm (MurmurHash3) to determine which of our 3 partitions the message lands on.
+         * Passing a specific identifier ensures that every single event belonging to that specific transaction ID always lands on the exact same partition, guaranteeing 
+         * chronological order of operations for that specific record.
+         */
         this.kafkaTemplate.send(KafkaConfig.MAIN_TOPIC, event.transactionId(), event);
     }
 }
